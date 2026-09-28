@@ -4055,8 +4055,9 @@
             "detailed": "Detailed",
             "compact": "Compact",
             "detailedTooltip": "Full usage with bars, labels, and percentages",
-            "compactTooltip": "Condensed usage: only the tightest window",
-            "footerDetailAria": "Usage footer detail"
+            "compactTooltip": "Condensed usage: one metric per provider",
+            "footerDetailAria": "Usage footer detail",
+            "compactMetricUnavailable": "{{metric}} is unavailable"
           },
           "RemoteServerUpdateStatusSegment": {
             "updating": "Updating {{value0}}/{{value1}}",
@@ -4128,6 +4129,10 @@
             "checkAriaOne": "1 chat to check after resuming. Click for details.",
             "checkAria": "{{value0}} chats to check after resuming. Click for details.",
             "checkTooltip": "Chats Orca couldn’t resume, or couldn’t confirm it resumed, after the restart. Click for details."
+          },
+          "ClaudeSwitcherMenu": {
+            "compactMetric": "Compact metric",
+            "compactMetricAuto": "Automatic"
           }
         }
       },

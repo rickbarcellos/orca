@@ -3552,7 +3552,7 @@
             "compact": "Compact",
             "footerDetailAria": "Usage footer detail",
             "detailedTooltip": "Uso completo con barras, etiquetas y porcentajes",
-            "compactTooltip": "Uso condensado: sólo la ventana más estrecha"
+            "compactTooltip": "Uso condensado: una métrica por proveedor"
           },
           "RemoteServerUpdateStatusSegment": {
             "updating": "Updating {{value0}}/{{value1}}",

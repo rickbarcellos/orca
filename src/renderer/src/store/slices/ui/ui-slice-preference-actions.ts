@@ -20,6 +20,10 @@ import {
   DEFAULT_STATUS_BAR_USAGE_MODE,
   normalizeStatusBarUsageMode
 } from '../../../../../shared/status-bar-usage-mode'
+import {
+  DEFAULT_CLAUDE_COMPACT_METRIC,
+  normalizeClaudeCompactMetric
+} from '../../../../../shared/claude-compact-metric'
 import type { WorkspaceHostScope } from '../../../../../shared/ui-chrome-types'
 import {
   normalizeExecutionHostOrder,
@@ -300,6 +304,12 @@ export function createUiPreferenceActions(set: UISliceSet, get: UISliceGet): Par
       const normalized = normalizeStatusBarUsageMode(mode)
       window.api.ui.set({ statusBarUsageMode: normalized }).catch(console.error)
       set({ statusBarUsageMode: normalized })
+    },
+    claudeCompactMetric: DEFAULT_CLAUDE_COMPACT_METRIC,
+    setClaudeCompactMetric: (metric) => {
+      const normalized = normalizeClaudeCompactMetric(metric)
+      window.api.ui.set({ claudeCompactMetric: normalized }).catch(console.error)
+      set({ claudeCompactMetric: normalized })
     }
   }
 }
