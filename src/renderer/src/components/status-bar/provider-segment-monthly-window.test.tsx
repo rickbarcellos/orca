@@ -223,13 +223,20 @@ describe('ProviderSegment monthly window', () => {
     }
   )
 
-  it.each(['ok', 'fetching', 'error'] as const)(
-    'shows an unavailable explicit metric without replacing provider health in %s state',
-    async (status) => {
+  it.each([
+    ['ok', false],
+    ['fetching', false],
+    ['error', false],
+    ['ok', true],
+    ['fetching', true],
+    ['error', true]
+  ] as const)(
+    'shows an unavailable metric in %s state when all windows absent is %s',
+    async (status, allAbsent) => {
       const { ProviderSegment } = await import('./StatusBar')
       const limits: ProviderRateLimits = {
         provider: 'claude',
-        session: windowOf(3, 300),
+        session: allAbsent ? null : windowOf(3, 300),
         weekly: null,
         updatedAt: Date.now(),
         error: status === 'error' ? 'refresh failed' : null,
@@ -289,7 +296,7 @@ describe('collapsed usage summary', () => {
     const { UsageOverflowChip } = await import('./StatusBarProviderSegment')
     const markup = renderToStaticMarkup(
       <UsageOverflowChip
-        hidden={[claudeLimits({ weekly: null })]}
+        hidden={[claudeLimits({ session: null, weekly: null, fableWeekly: null })]}
         display="remaining"
         claudeCompactMetric="weekly"
       />
@@ -300,11 +307,6 @@ describe('collapsed usage summary', () => {
 })
 
 describe('undefined provider window safety (crash d2c1da69 / bb74236c)', () => {
-  // A partial/rehydrated provider can carry an undefined (not null) window even
-  // though the type declares `session`/`weekly` as `RateLimitWindow | null`. The
-  // old `s.window !== null` filter let the undefined-window section through, so
-  // getTightestUsageSection's reduce read `.usedPercent` of undefined and crashed
-  // the status-bar overlay (TypeError in ProviderSegment).
   const partialProvider = {
     provider: 'codex',
     weekly: windowOf(42, 10080),
@@ -313,7 +315,7 @@ describe('undefined provider window safety (crash d2c1da69 / bb74236c)', () => {
     status: 'ok'
   } as unknown as ProviderRateLimits // `session` omitted -> undefined at runtime
 
-  it('getTightestUsageSection ignores an undefined window instead of crashing', async () => {
+  it('selectCompactUsage ignores an undefined window instead of crashing', async () => {
     const { selectCompactUsage } = await import('./compact-usage-selection')
     expect(() => selectCompactUsage(partialProvider, 'auto')).not.toThrow()
     expect(selectCompactUsage(partialProvider, 'auto')).toMatchObject({

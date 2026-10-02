@@ -69,26 +69,26 @@ export function selectCompactUsage(
   provider: ProviderRateLimits,
   claudeMetric: ClaudeCompactMetric
 ): CompactUsageSelection {
+  if (provider.provider === 'claude' && claudeMetric !== 'auto') {
+    const window = provider[claudeMetric]
+    if (window === null || window === undefined) {
+      return {
+        kind: 'unavailable',
+        metric: claudeMetric,
+        label: getClaudeCompactMetricLabel(claudeMetric)
+      }
+    }
+
+    const section = { label: getClaudeCompactMetricLabel(claudeMetric), window }
+    return {
+      kind: 'selected',
+      section: { ...section, label: getUsageSectionShortLabel(provider, section, true) }
+    }
+  }
+
   const sections = getAvailableUsageSections(provider)
   if (sections.length === 0) {
     return { kind: 'empty' }
   }
-  if (provider.provider !== 'claude' || claudeMetric === 'auto') {
-    return { kind: 'selected', section: selectAutomatic(provider, sections) }
-  }
-
-  const window = provider[claudeMetric]
-  if (window === null || window === undefined) {
-    return {
-      kind: 'unavailable',
-      metric: claudeMetric,
-      label: getClaudeCompactMetricLabel(claudeMetric)
-    }
-  }
-
-  const section = { label: getClaudeCompactMetricLabel(claudeMetric), window }
-  return {
-    kind: 'selected',
-    section: { ...section, label: getUsageSectionShortLabel(provider, section, true) }
-  }
+  return { kind: 'selected', section: selectAutomatic(provider, sections) }
 }

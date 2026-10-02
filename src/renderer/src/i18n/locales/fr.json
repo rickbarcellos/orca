@@ -4000,7 +4000,8 @@
             "compact": "Compact",
             "detailedTooltip": "Utilisation complète avec barres, libellés et pourcentages",
             "compactTooltip": "Utilisation condensée : une métrique par fournisseur",
-            "footerDetailAria": "Détail du pied de page d'utilisation"
+            "footerDetailAria": "Détail du pied de page d'utilisation",
+            "compactMetricUnavailable": "{{metric}} n’est pas disponible"
           },
           "RemoteServerUpdateStatusSegment": {
             "updating": "Mise à jour de {{value0}}/{{value1}}",
@@ -4077,6 +4078,10 @@
             "resumingAriaOne": "Reprise d’1 conversation. Cliquez pour voir les détails.",
             "resumingAria": "Reprise de {{value0}} conversations. Cliquez pour voir les détails.",
             "resumingTooltip": "Restauration des conversations interrompues et demande de poursuite…"
+          },
+          "ClaudeSwitcherMenu": {
+            "compactMetric": "Indicateur compact",
+            "compactMetricAuto": "Automatique"
           }
         }
       },

@@ -3553,7 +3553,8 @@
             "compact": "Compact",
             "footerDetailAria": "Usage footer detail",
             "detailedTooltip": "Uso completo con barras, etiquetas y porcentajes",
-            "compactTooltip": "Uso condensado: una métrica por proveedor"
+            "compactTooltip": "Uso condensado: una métrica por proveedor",
+            "compactMetricUnavailable": "{{metric}} no está disponible"
           },
           "RemoteServerUpdateStatusSegment": {
             "updating": "Updating {{value0}}/{{value1}}",
@@ -3621,6 +3622,10 @@
             "resumingAriaOne": "Reanudando 1 chat. Haz clic para ver los detalles.",
             "resumingAria": "Reanudando {{value0}} chats. Haz clic para ver los detalles.",
             "resumingTooltip": "Restaurando los chats interrumpidos y pidiéndoles que continúen…"
+          },
+          "ClaudeSwitcherMenu": {
+            "compactMetric": "Métrica compacta",
+            "compactMetricAuto": "Automático"
           }
         }
       },

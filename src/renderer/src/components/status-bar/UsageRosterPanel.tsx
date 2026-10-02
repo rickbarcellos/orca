@@ -146,12 +146,13 @@ export function UsageRow({
               showBar={false}
             />
           </span>
-        ) : compactSelection?.kind === 'unavailable' ? (
+        ) : reset && compactSelection?.kind !== 'unavailable' ? (
+          <span className="shrink-0 text-[11px] text-muted-foreground">{reset}</span>
+        ) : null}
+        {compactSelection?.kind === 'unavailable' ? (
           <span className="ml-auto">
             <CompactMetricUnavailable label={compactSelection.label} />
           </span>
-        ) : reset ? (
-          <span className="shrink-0 text-[11px] text-muted-foreground">{reset}</span>
         ) : null}
       </div>
       {hasUsage && mode === 'verbose' ? (

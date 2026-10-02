@@ -263,36 +263,49 @@ describe('UsageRow', () => {
     expect(markup).toContain(label)
   })
 
-  it('shows an unavailable explicit metric without replacing it', () => {
-    const markup = renderToStaticMarkup(
-      <UsageRow
-        p={{
-          provider: 'claude',
-          session: {
-            usedPercent: 3,
-            windowMinutes: 300,
-            resetsAt: null,
-            resetDescription: null
-          },
-          weekly: null,
-          updatedAt: 0,
-          status: 'fetching',
-          error: null
-        }}
-        display="remaining"
-        mode="compact"
-        claudeCompactMetric="weekly"
-        state={{ kind: 'usage', statusLabel: null }}
-        showSignInAction={false}
-        now={mocks.now}
-      />
-    )
+  it.each([false, true])(
+    'shows an unavailable metric when all windows absent is %s',
+    (allAbsent) => {
+      const markup = renderToStaticMarkup(
+        <UsageRow
+          p={{
+            provider: 'claude',
+            session: allAbsent
+              ? null
+              : {
+                  usedPercent: 3,
+                  windowMinutes: 300,
+                  resetsAt: null,
+                  resetDescription: null
+                },
+            weekly: null,
+            updatedAt: 0,
+            status: 'fetching',
+            error: null
+          }}
+          display="remaining"
+          mode="compact"
+          claudeCompactMetric="weekly"
+          state={
+            allAbsent
+              ? { kind: 'sign-in', statusLabel: 'not signed in' }
+              : { kind: 'usage', statusLabel: null }
+          }
+          showSignInAction={allAbsent}
+          now={mocks.now}
+        />
+      )
 
-    expect(markup).toContain('Weekly --')
-    expect(markup).toContain('<span aria-hidden="true">Weekly --</span>')
-    expect(markup).toContain('<span class="sr-only">Weekly is unavailable</span>')
-    expect(markup).not.toContain('97%')
-  })
+      expect(markup).toContain('Weekly --')
+      expect(markup).toContain('<span aria-hidden="true">Weekly --</span>')
+      expect(markup).toContain('<span class="sr-only">Weekly is unavailable</span>')
+      expect(markup).not.toContain('97%')
+      if (allAbsent) {
+        expect(markup).toContain('not signed in')
+        expect(markup).toContain('Sign in')
+      }
+    }
+  )
 
   it('renders every window below the header in verbose mode', () => {
     const markup = renderToStaticMarkup(

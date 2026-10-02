@@ -94,12 +94,18 @@ describe('selectCompactUsage', () => {
     ).toEqual([3, 100])
   })
 
-  it.each(['auto', 'session', 'weekly', 'fableWeekly'] as const)(
-    'returns empty for a provider with no usage data when choice is %s',
+  it('returns empty for Automatic when Claude has no usage data', () => {
+    expect(
+      selectCompactUsage(claudeLimits({ session: null, weekly: null, fableWeekly: null }), 'auto')
+    ).toEqual({ kind: 'empty' })
+  })
+
+  it.each(['session', 'weekly', 'fableWeekly'] as const)(
+    'keeps an explicit %s choice unavailable when all Claude windows are absent',
     (metric) => {
       expect(
         selectCompactUsage(claudeLimits({ session: null, weekly: null, fableWeekly: null }), metric)
-      ).toEqual({ kind: 'empty' })
+      ).toMatchObject({ kind: 'unavailable', metric })
     }
   )
 
